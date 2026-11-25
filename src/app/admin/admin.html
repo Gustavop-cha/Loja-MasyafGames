@@ -1,0 +1,66 @@
+<h2 class="mb-4">★ Administração de jogos ★</h2>
+
+<form #f="ngForm" (ngSubmit)="salvar()" class="painel mb-4">
+  <h5 class="mb-3">{{ editandoId === null ? 'Novo jogo' : 'Editando jogo #' + editandoId }}</h5>
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label class="form-label" for="nome">Nome</label>
+      <input id="nome" name="nome" class="form-control" [(ngModel)]="form.nome" required maxlength="180">
+    </div>
+    <div class="col-md-3 mb-3">
+      <label class="form-label" for="preco">Preço (R$)</label>
+      <input id="preco" name="preco" type="number" step="0.01" min="0" class="form-control" [(ngModel)]="form.preco" required>
+    </div>
+    <div class="col-md-3 mb-3">
+      <label class="form-label" for="plataforma">Plataforma</label>
+      <select id="plataforma" name="plataforma" class="form-select" [(ngModel)]="form.plataforma" required>
+        @for (p of plataformas; track p) { <option [value]="p">{{ p }}</option> }
+      </select>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="imagem">Imagem (caminho em /public, ex.: /PS4/tlou2.jpg, ou URL)</label>
+    <input id="imagem" name="imagem" class="form-control" [(ngModel)]="form.imagem" required maxlength="500">
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="descricao">Descrição</label>
+    <textarea id="descricao" name="descricao" rows="2" class="form-control" [(ngModel)]="form.descricao"></textarea>
+  </div>
+  <div class="d-flex gap-2">
+    <button class="btn btn-success" type="submit" [disabled]="f.invalid || salvando">
+      {{ editandoId === null ? 'Cadastrar' : 'Salvar alterações' }}
+    </button>
+    @if (editandoId !== null) {
+      <button class="btn btn-outline-light" type="button" (click)="cancelarEdicao()">Cancelar</button>
+    }
+  </div>
+</form>
+
+<div class="painel">
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+    <h5 class="m-0">Catálogo ({{ jogos.length }} jogos)</h5>
+    <input class="form-control filtro" placeholder="Filtrar por nome ou plataforma" [(ngModel)]="filtro" name="filtro">
+  </div>
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <thead>
+        <tr><th>ID</th><th></th><th>Nome</th><th>Plataforma</th><th class="text-end">Preço</th><th></th></tr>
+      </thead>
+      <tbody>
+        @for (j of jogosFiltrados; track j.id) {
+          <tr>
+            <td>{{ j.id }}</td>
+            <td><img [src]="j.imagem" [alt]="j.nome" class="mini"></td>
+            <td>{{ j.nome }}</td>
+            <td>{{ j.plataforma }}</td>
+            <td class="text-end">{{ j.preco | currency:'BRL' }}</td>
+            <td class="text-end text-nowrap">
+              <button class="btn btn-sm btn-outline-info me-1" (click)="editar(j)">Editar</button>
+              <button class="btn btn-sm btn-outline-danger" (click)="excluir(j)">Excluir</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

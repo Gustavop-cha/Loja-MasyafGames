@@ -1,0 +1,47 @@
+<h2>Cesta</h2>
+
+@if (cesta.itens().length === 0) {
+  <p>Sua cesta está vazia.</p>
+  <a routerLink="/" class="btn btn-primary">Ver produtos</a>
+} @else {
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Qtd</th>
+          <th class="text-end">Valor</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of cesta.itens(); track item.produto.id) {
+          <tr>
+            <td>{{ item.produto.nome }}</td>
+            <td class="text-nowrap">
+              <button class="btn btn-sm btn-outline-info" (click)="cesta.alterarQuantidade(item.produto.id, -1)">−</button>
+              <span class="mx-2">{{ item.qtd }}x</span>
+              <button class="btn btn-sm btn-outline-info" (click)="cesta.alterarQuantidade(item.produto.id, 1)">+</button>
+            </td>
+            <td class="text-end">
+              {{ item.produto.preco * item.qtd | currency:'BRL' }}
+              <button class="btn btn-sm btn-outline-danger ms-2" title="Remover" (click)="cesta.remover(item.produto.id)">✕</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="2">Total</th>
+          <th class="text-end">{{ cesta.total() | currency:'BRL' }}</th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="d-flex gap-2 justify-content-center">
+    <button class="btn btn-outline-danger" (click)="cesta.limpar()">Limpar cesta</button>
+    <button class="btn btn-success" (click)="finalizar()" [disabled]="enviando">
+      {{ enviando ? 'Enviando...' : 'Finalizar' }}
+    </button>
+  </div>
+}

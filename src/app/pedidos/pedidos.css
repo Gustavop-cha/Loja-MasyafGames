@@ -1,0 +1,56 @@
+.pedido {
+  background: var(--fundo-card);
+  border: 2px solid var(--ciano);
+  border-radius: 10px;
+  padding: 1.25rem;
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.25);
+}
+
+h5 {
+  font-size: 0.8rem;
+  color: var(--ciano);
+}
+
+.table {
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--texto);
+}
+
+.table a {
+  color: var(--texto);
+}
+
+.table td,
+.table th {
+  white-space: nowrap;
+}
+
+.table td:first-child {
+  white-space: normal;
+  word-break: break-word;
+}
+
+.total {
+  color: var(--amarelo);
+  font-size: 1.5rem;
+}
+
+@media (max-width: 576px) {
+  .pedido {
+    padding: 0.75rem;
+  }
+
+  .col-unit {
+    display: none;
+  }
+
+  .table td,
+  .table th {
+    padding: 0.5rem 0.35rem;
+    font-size: 1.1rem;
+  }
+
+  .total {
+    font-size: 1.25rem;
+  }
+}

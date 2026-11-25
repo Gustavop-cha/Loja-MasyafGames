@@ -1,0 +1,43 @@
+<h2 class="mb-4">★ Meus pedidos ★</h2>
+
+@if (!auth.usuario()) {
+  <p>Entre na sua conta para ver seus pedidos.</p>
+  <a routerLink="/login" class="btn btn-primary">Entrar</a>
+} @else if (carregando) {
+  <p>Carregando pedidos...</p>
+} @else if (erro) {
+  <div class="alert alert-danger">{{ erro }}</div>
+} @else if (pedidos.length === 0) {
+  <p>Você ainda não fez nenhum pedido.</p>
+  <a routerLink="/" class="btn btn-primary">Ver produtos</a>
+} @else {
+  @for (pedido of pedidos; track pedido.id) {
+    <div class="pedido mb-4">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+        <h5 class="m-0">Pedido #{{ pedido.id }}</h5>
+        <span>{{ pedido.data | date:'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+      <div class="table-responsive">
+      <table class="table align-middle mb-2">
+        <thead>
+          <tr><th>Jogo</th><th>Qtd</th><th class="text-end col-unit">Preço unit.</th><th class="text-end">Subtotal</th></tr>
+        </thead>
+        <tbody>
+          @for (item of pedido.itens; track item.id) {
+            <tr>
+              <td><a [routerLink]="['/produto', item.jogo.id]">{{ item.jogo.nome }}</a></td>
+              <td>{{ item.quantidade }}x</td>
+              <td class="text-end col-unit">{{ item.precoUnitario | currency:'BRL' }}</td>
+              <td class="text-end">{{ item.precoUnitario * item.quantidade | currency:'BRL' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <button class="btn btn-sm btn-outline-danger" (click)="cancelar(pedido)">Cancelar pedido</button>
+        <strong class="total">Total: {{ pedido.total | currency:'BRL' }}</strong>
+      </div>
+    </div>
+  }
+}

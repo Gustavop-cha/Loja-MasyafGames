@@ -1,0 +1,31 @@
+.painel {
+  background: var(--fundo-card);
+  border: 2px solid var(--ciano);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 0 14px rgba(0, 229, 255, 0.25);
+}
+
+h5 {
+  font-size: 0.8rem;
+  color: var(--ciano);
+}
+
+.form-label {
+  color: var(--texto);
+}
+
+.filtro {
+  max-width: 320px;
+}
+
+.table {
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--texto);
+}
+
+.mini {
+  height: 48px;
+  width: 36px;
+  object-fit: contain;
+}
